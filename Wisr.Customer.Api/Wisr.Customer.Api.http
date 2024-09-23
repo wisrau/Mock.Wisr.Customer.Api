@@ -1,0 +1,6 @@
+@Wisr.Customer.Api_HostAddress = http://localhost:5124
+
+GET {{Wisr.Customer.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

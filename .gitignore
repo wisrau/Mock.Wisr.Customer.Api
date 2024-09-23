@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Wisr.Customer.Api/config
+/.vs/Wisr.Customer.Api/FileContentIndex
+/.vs/Wisr.Customer.Api/v17
+/Wisr.Customer.Api/bin/Debug/net8.0
+/Wisr.Customer.Api/obj

@@ -64,8 +64,8 @@ namespace Wisr.Customer.Api.Database
             int sequence = 1;
             var existingCustomers = new Fixture()
                 .Build<Models.Customer>()
-                .With(_ => _.Income)
-                .With(_ => _.Id, () => sequence++)
+                .With(_ => _.Id, () => sequence)
+                .With(_ => _.Income, () => 1000 * sequence++)
                 .CreateMany<Models.Customer>(100);
 
             modelBuilder.Entity<Models.Customer>().Property(_ => _.Id).ValueGeneratedOnAdd();

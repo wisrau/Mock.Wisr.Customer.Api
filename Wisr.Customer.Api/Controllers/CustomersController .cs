@@ -1,10 +1,10 @@
 namespace Wisr.Customer.Api.Controllers;
 
+using Database;
+using Database.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Database;
-using Database.Models;
 
 // Note: The Fee table contains the following data...
 //
@@ -32,7 +32,7 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost("{customerId:int}/total-fees")]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
     public async Task<ActionResult> GetFees(int customerId)
     {
         var customerIncome = await _db
@@ -56,6 +56,6 @@ public class CustomersController : ControllerBase
             }
         }
 
-        return Ok(totalFee);
+        return Ok(new { totalFee, customerIncome });
     }
 }

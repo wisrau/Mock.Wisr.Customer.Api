@@ -23,33 +23,33 @@ namespace Wisr.Customer.Api.Database
                 new()
                 {
                     Id = 1,
+                    Threshold = 11000,
+                    Amount = 30
+                },
+                new()
+                {
+                    Id = 2,
                     Threshold = 30000,
                     Amount = 5
                 },
                 new()
                 {
-                    Id = 2,
-                    Threshold = 45000,
-                    Amount = 10
-                },
-                new()
-                {
                     Id = 3,
-                    Threshold = 70000,
-                    Amount = 15
-                },
-                new()
-                {
-                    Id = 4,
                     Threshold = 90000,
                     Amount = 20
                 },
                 new()
                 {
+                    Id = 4,
+                    Threshold = 45000,
+                    Amount = 10
+                },
+                new()
+                {
                     Id = 5,
-                    Threshold = 11000,
-                    Amount = 30
-                }
+                    Threshold = 70000,
+                    Amount = 15
+                },
             };
 
             modelBuilder.Entity<Models.Fee>().HasKey(_ => _.Id);

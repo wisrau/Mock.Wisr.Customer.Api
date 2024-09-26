@@ -1,53 +1,61 @@
+namespace Wisr.Customer.Api.Controllers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wisr.Customer.Api.Database;
-using Wisr.Customer.Api.Database.Models;
+using Database;
+using Database.Models;
 
-namespace Wisr.Customer.Api.Controllers
+// Note: The Fee table contains the following data...
+//
+// Threshold | Amount
+// 30000     | 5
+// 45000     | 10
+// 70000     | 15
+// 90000     | 20
+// 110000    | 30
+
+[Route("api/customer")]
+[ApiController]
+[Authorize("customer:read-personal-details")]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
+public class CustomersController : ControllerBase
 {
-    [Route("api/customer")]
-    [ApiController]
-    [Authorize("customer:read-personal-details")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public class CustomersController : ControllerBase
+    private readonly ILogger<CustomersController> _logger;
+    private readonly CustomerDbContext _db;
+
+    public CustomersController(ILogger<CustomersController> logger, CustomerDbContext db)
     {
-        private readonly ILogger<CustomersController> _logger;
-        private readonly CustomerDbContext _db;
+        _logger = logger;
+        _db = db;
+    }
 
-        public CustomersController(ILogger<CustomersController> logger, CustomerDbContext db)
+    [HttpPost("{customerId:int}/total-fees")]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    public async Task<ActionResult> GetFees(int customerId)
+    {
+        var customerIncome = await _db
+            .Customers.Where(c => c.Id == customerId)
+            .Select(c => c.Income)
+            .FirstOrDefaultAsync();
+
+        var totalFee = 0;
+        List<Fee> fees = new List<Fee>
         {
-            _logger = logger;
-            _db = db;
-        }
+            new Fee { Amount = 750, Threshold = 90000 },
+            new Fee { Amount = 500, Threshold = 30000 },
+            new Fee { Amount = 1000, Threshold = 120000 }
+        };
 
-        [HttpPost("{customerId:int}/total-fees")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetFees(int customerId)
+        foreach (var fee in fees)
         {
-            var customerIncome = await _db
-                .Customers.Where(c => c.Id == customerId)
-                .Select(c => c.Income)
-                .FirstOrDefaultAsync();
-
-            var totalFee = 0;
-            List<Fee> fees = new List<Fee>
+            if (customerIncome >= fee.Threshold)
             {
-                new Fee { Amount = 750, Threshold = 90000 },
-                new Fee { Amount = 500, Threshold = 30000 },
-                new Fee { Amount = 1000, Threshold = 120000 }
-            };
-
-            foreach (var fee in fees)
-            {
-                if (customerIncome >= fee.Threshold)
-                {
-                    totalFee += fee.Amount;
-                }
+                totalFee += fee.Amount;
             }
-
-            return Ok(totalFee);
         }
+
+        return Ok(totalFee);
     }
 }

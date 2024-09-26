@@ -23,7 +23,6 @@ using Microsoft.EntityFrameworkCore;
 public class CustomersController : ControllerBase
 {
     private readonly ILogger<CustomersController> _logger;
-
     private readonly CustomerDbContext _db;
 
     public CustomersController(ILogger<CustomersController> logger, CustomerDbContext db)

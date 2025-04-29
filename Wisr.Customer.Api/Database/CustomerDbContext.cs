@@ -13,7 +13,24 @@ namespace Wisr.Customer.Api.Database
         {
             ConfigureCustomer(modelBuilder);
 
+            ConfigureFeeGroup(modelBuilder);
+
             ConfigureFee(modelBuilder);
+        }
+
+        private static void ConfigureFeeGroup(ModelBuilder modelBuilder)
+        {
+            var existingFeeGroups = new FeeGroup[]
+            {
+                new() { Id = 1, ValidFromDate = DateTime.UtcNow.AddDays(-30) },
+                new() { Id = 2, ValidFromDate = DateTime.UtcNow },
+            };
+
+            modelBuilder.Entity<Models.FeeGroup>().HasKey(_ => _.Id);
+
+            modelBuilder.Entity<Models.FeeGroup>().Property(_ => _.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Models.FeeGroup>().HasData(existingFeeGroups);
         }
 
         private static void ConfigureFee(ModelBuilder modelBuilder)
@@ -24,31 +41,36 @@ namespace Wisr.Customer.Api.Database
                 {
                     Id = 1,
                     Threshold = 11000,
-                    Amount = 30
+                    Amount = 30,
+                    FeeGroupId = 1,
                 },
                 new()
                 {
                     Id = 2,
                     Threshold = 30000,
-                    Amount = 5
+                    Amount = 5,
+                    FeeGroupId = 1,
                 },
                 new()
                 {
                     Id = 3,
                     Threshold = 90000,
-                    Amount = 20
+                    Amount = 20,
+                    FeeGroupId = 1,
                 },
                 new()
                 {
                     Id = 4,
                     Threshold = 45000,
-                    Amount = 10
+                    Amount = 10,
+                    FeeGroupId = 1,
                 },
                 new()
                 {
                     Id = 5,
                     Threshold = 70000,
-                    Amount = 15
+                    Amount = 15,
+                    FeeGroupId = 1,
                 },
             };
 

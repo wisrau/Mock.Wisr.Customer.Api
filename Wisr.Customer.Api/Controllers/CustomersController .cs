@@ -46,7 +46,7 @@ public class CustomersController : ControllerBase
         {
             new Fee { Amount = 750, Threshold = 90000 },
             new Fee { Amount = 500, Threshold = 30000 },
-            new Fee { Amount = 1000, Threshold = 120000 }
+            new Fee { Amount = 1000, Threshold = 120000 },
         };
 
         foreach (var fee in fees)

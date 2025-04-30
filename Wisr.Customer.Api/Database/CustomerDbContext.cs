@@ -97,5 +97,6 @@ namespace Wisr.Customer.Api.Database
 
         public DbSet<Models.Customer> Customers { get; set; }
         public DbSet<Models.Fee> Fees { get; set; }
+        public DbSet<Models.FeeGroup> FeeGroups { get; set; }
     }
 }

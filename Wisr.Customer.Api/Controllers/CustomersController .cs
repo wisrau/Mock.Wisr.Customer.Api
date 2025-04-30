@@ -42,11 +42,13 @@ public class CustomersController : ControllerBase
             .FirstOrDefaultAsync();
 
         var totalFee = 0;
-        List<Fee> fees = new List<Fee>
+        var fees = new List<Fee>
         {
-            new Fee { Amount = 750, Threshold = 90000 },
-            new Fee { Amount = 500, Threshold = 30000 },
-            new Fee { Amount = 1000, Threshold = 120000 },
+            new() { Amount = 5, Threshold = 30000 },
+            new() { Amount = 10, Threshold = 45000 },
+            new() { Amount = 15, Threshold = 70000 },
+            new() { Amount = 20, Threshold = 90000 },
+            new() { Amount = 30, Threshold = 110000 },
         };
 
         foreach (var fee in fees)
